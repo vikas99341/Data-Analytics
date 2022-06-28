@@ -44,3 +44,71 @@ It also includes query editor so that you can run the redshift queries without i
 Q: What is Redshift Query Editor?
 Amazon Redshift Query Editor is a web-based SQL client application that can be used to run queries on Redshift data warehouse. You can visualize query results with charts and collaborate by sharing queries with members of your team.
 Additionally it provides several capabilities, such as the ability to browse and explore multiple databases, external tables, views, stored procedures, and user-defined functions. It provides wizards to create schemas, tables, and user-defined functions. It simplifies the management and collaboration of saved queries. You can also gain faster insights by visualizing the results with a single click.
+
+Interview Questions - 2
+Q: What are the different Instance Types in Redshift ?
+Redshift provides following instance types to choose while creating or resizing the cluster.
+RA3 - Flexible storage based on local SSDs and AWS S3
+DC2 - uses local SSDs only
+DS2 - uses local HDDs only
+These instance types are further available in different sizes in terms of CPUs, Memory, Storage Capacity and Node Range.
+
+Q: Is Redshift based on Relational Database (RDBMS) ?
+Yes Amazon Redshift is a relational database management system (RDBMS). Although it provides the same functionality as a typical RDBMS, including online transaction processing (OLTP) functions such as inserting and deleting data, Amazon Redshift is optimized for high-performance analysis and reporting of very large datasets.
+
+Q: What is the database engine Redshift uses?
+Amazon Redshift is based on PostgreSQL which is one of the most popular open source relational database management system.
+
+Q: What is the role of “Columnar Storage” in Redshift?
+In a typical relational database table, each row contains field values for a single record. In row-wise database storage, data blocks store values sequentially for each consecutive column making up the entire row. In online transaction processing (OLTP) applications, most transactions involve frequently reading and writing all of the values for entire records, typically one record or a small number of records at a time. As a result, row-wise storage is optimal for OLTP databases.
+Columnar storage works differently. In this mode, data is stored column wise, which means each data block stores values of a single column for multiple rows. This reduces the amount of data we need to load from disk, specially for the analytic queries. An added advantage is that, since each block holds the same type of data, block data can use a compression scheme selected specifically for the column data type, further reducing disk space and I/O.
+Redshift uses the columnar storage to optimize data storage and query performance. As records enter the redshift ecosystem, it transparently converts the data to columnar storage for each of the columns.
+
+Q: What does the Distribution Style mean in Redshift?
+When you load the data into Redshift, it distributes the data rows to the compute nodes and its slices. The distribution of data depends on the distribution style we choose while creating the table.
+When you execute a query, the query optimizer redistributes the rows to the compute nodes as needed to perform any joins and aggregations.The data distribution has two goals
+distribute the workload uniformly among the nodes in the cluster
+To minimize data movement as a query run
+If either of this is skewed, our query performance can go wrong.
+By choosing the best distribution style including the key, we can balance the data distribution and significantly improve overall system performance.
+
+Q: What is a Sort Key?
+Amazon Redshift stores your data on disk in sorted order according to the sort key. The query optimizer uses sort order when it determines optimal query plans.
+Sort key(s) are used to scan the data efficiently and applicable for the queries which involve the range restricted predicates.
+
+Q What are the different types of Sort Key?
+Sort Key comes in two forms- interleaved and compound , compound being the default.
+Compound is the default type. This can speed up the joins, group by, order by queries and also the compression of data. This is useful, specially where the predicates come with the prefix. But the query performance can be degraded if the primary column is not used as a predicate.
+On the other hand interleaved key give equal weight to each column. They are good for the queries using different column at different point of time. An interleaved sort is more effective with large tables which require multiple 1 MB blocks per slice.
+
+Q: What is the Workload Management?
+Amazon Redshift workload management (WLM) enables users to flexibly manage priorities among various queries running in parallel based on the queues.
+We can add multiple queues based on classifications. For instance we can have a separate queue for analytic workloads and a separate queue for ETL process. These queues have either a user group or the query group mapped to it.
+When you run a query, WLM assigns the query to a queue according to the user's user group or by matching a query group that the user sets at runtime.
+Currently, redshift uses automatic WLM by default, which manages query concurrency and memory allocation automatically.
+With manual WLM, You can define up to eight queues. You can define the concurrency and the memory allocation for each of these queues.
+
+Q: What is Short Query Acceleration?
+Short query acceleration (SQA) prioritizes selected short-running queries ahead of longer-running queries. SQA runs short-running queries in a dedicated space, so that SQA queries aren't forced to wait in queues behind longer queries. SQA only prioritizes queries that are short-running and are in a user-defined queue.
+Redshift uses machine learning capabilities to identify short running queries.
+
+Q: What are the Materialized Views?
+With the materialized view, a precomputed result set can be saved and served for the queries. This increases the performance significantly for the analytic queries which are repetitive and predictable in nature.
+You can query the materialized views the same way as you would do with the tables.
+
+Q: When to use RA3 instance type?
+You can consider choosing RA3 node types in these cases:
+You need the flexibility to scale and pay for compute separate from storage.
+You query a fraction of your total data.
+Your data volume is growing rapidly or is expected to grow rapidly.
+You want the flexibility to size the cluster based only on your performance needs.
+With RA3 instances with managed storage, you can choose the number of nodes based on your performance requirements, and pay only for the managed storage that you use. Built on the AWS Nitro System, RA3 instances with managed storage use high performance SSDs for your hot data and Amazon S3 for your cold data, providing ease of use, cost-effective storage, and fast query performance.
+
+Q: What is “Managed Storage”?
+Amazon Redshift managed storage is available with RA3 node types (with Serverless too) which helps in scaling the storage independent of the compute. This lets you size your cluster based on your compute needs only. This reduces the overall cost.
+It automatically uses high-performance SSD-based local storage as tier-1 cache and takes advantage of optimizations such as data block temperature, data block age, and workload patterns to deliver high performance while scaling storage automatically to Amazon S3 when needed without requiring any action.
+
+Q: What is Advanced Query Accelerator (AQUA)?
+Advanced Query Accelerator (AQUA) is a new distributed and hardware-accelerated cache that automatically boost the query performance multifold.
+It accelerates analytics queries by running data-intensive tasks such as scans, filtering, and aggregation closer to the storage layer. Most noticeable performance improvement can be seen on queries that require large scans, especially those with LIKE and SIMILAR_TO predicates.
+AQUA is available with the RA3 instance type at no additional charge. You do not need additional code changes to enable it.
