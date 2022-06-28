@@ -1,0 +1,46 @@
+Interview Questions - 1
+
+Q: What is Amazon Redshift?
+Amazon Redshift is a fully managed, cloud data warehouse which can help analyze petabytes of data in an easy, scalable and cost-effective manner.
+Additionally, it also enable to analyze the data sitting across other storage platforms including operational databases, data lake, data warehouse, and third party data sets.
+
+Q: What do we mean by “AWS Redshift is fully managed” ?
+Redshift is fully managed by AWS, so you no longer need to worry about data warehouse management tasks such as hardware provisioning, software patching, setup, configuration, monitoring nodes and drives to recover from failures, or backups.
+Additionally Redshift also has automatic tuning capabilities which helps in efficient storage and query processing.
+
+Q: What is Redshift Cluster?
+Cluster is the core infrastructure component of an Amazon Redshift data warehouse.
+It’s composed of one or more compute nodes and a leader node. Your client application interacts directly only with the leader node. which distributes and coordinate the query processing across multiple compute nodes.
+
+Q: What is a Leader node?
+The leader node manages communications with client programs and all communication with compute nodes. It parses and develops execution plans to carry out database operations, in particular, the series of steps necessary to obtain results for complex queries. Based on the execution plan, the leader node compiles code, distributes the compiled code to the compute nodes, and assigns a portion of the data to each compute node.
+The leader node distributes SQL statements to the compute nodes only when a query references tables that are stored on the compute nodes. All other queries run exclusively on the leader node.
+
+Q: What is a Compute node?
+The leader node compiles code for individual elements of the execution plan and assigns the code to individual compute nodes. The compute nodes execute the compiled code and send intermediate results back to the leader node for final aggregation.
+Each compute node has its own dedicated CPU, memory, and attached disk storage, which are determined by the node type. As your workload grows, you can increase the compute capacity and storage capacity of a cluster by increasing the number of nodes, upgrading the node type, or both.
+Amazon Redshift provides several node types (DC2, RA3) for your compute and storage needs.
+
+Q: What is a Node Slice?
+A compute node is partitioned into slices. Each slice is allocated a portion of the node's memory and disk space, where it processes a portion of the workload assigned to the node. The leader node manages distributing data to the slices and apportions the workload for any queries or other database operations to the slices. The slices then work in parallel to complete the operation.
+The number of slices per node is determined by the node size of the cluster. When you create a table, you can optionally specify one column as the distribution key. When the table is loaded with data, the rows are distributed to the node slices according to the distribution key that is defined for a table.
+
+Q: How do I create redshift cluster?
+You can easily create an Redshift cluster by using the AWS Management Console or the Amazon Redshift APIs.
+You can start with a single node, which is best suited for evaluation or development/test workloads. It lets you get started with Amazon Redshift quickly.
+The multi-node configuration requires a leader node that manages client connections and receives queries, and at least two compute nodes that store data and perform queries and computations. The leader node, which is the same size as the compute node, is provisioned for you automatically and you are not charged for it.
+Simply specify your preferred Availability Zone (optional), the number of nodes, node types, a primary name and password, security groups, your preferences for backup retention, and other system settings.
+Once you've chosen your desired configuration, Amazon Redshift will provision the required resources and set up your data warehouse cluster.
+
+Q: How can I connect to the Amazon Redshift Cluster?
+Once the data warehouse cluster is available, you can retrieve its endpoint and JDBC and ODBC connection string from the AWS Management Console or by using the Redshift APIs.
+You can then use this connection string with your favorite database tool, programming language, or Business Intelligence (BI) tool.
+You will need to authorize network requests to your running data warehouse cluster though.
+
+Q: What is Redshift Console?
+Redshift console provides the web-based interface to interact with Redshift cluster for cluster management, security, monitoring, configuration, query insights, marketplace and many other redshift aspects.
+It also includes query editor so that you can run the redshift queries without installing any separate sql client at your end.
+
+Q: What is Redshift Query Editor?
+Amazon Redshift Query Editor is a web-based SQL client application that can be used to run queries on Redshift data warehouse. You can visualize query results with charts and collaborate by sharing queries with members of your team.
+Additionally it provides several capabilities, such as the ability to browse and explore multiple databases, external tables, views, stored procedures, and user-defined functions. It provides wizards to create schemas, tables, and user-defined functions. It simplifies the management and collaboration of saved queries. You can also gain faster insights by visualizing the results with a single click.
